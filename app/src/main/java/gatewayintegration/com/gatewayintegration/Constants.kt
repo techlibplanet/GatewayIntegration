@@ -19,7 +19,7 @@ object Constants {
     var BASE_URL = "http://www.alchemyeducation.org/paytm/"
 
     val M_ID = "Alchem89983996599310" //Paytm Merchand Id we got it in paytm credentials
-    val CHANNEL_ID = "WEB" //Paytm Channel Id, got it in paytm credentials
+    val CHANNEL_ID = "WAP" //Paytm Channel Id, got it in paytm credentials
     val INDUSTRY_TYPE_ID = "Retail" //Paytm industry type got it in paytm credential
 
     val WEBSITE = "APPSTAGING"
