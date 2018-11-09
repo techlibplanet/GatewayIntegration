@@ -19,6 +19,8 @@ interface PaytmApi {
             @Field("TXN_AMOUNT") txnAmount: String,
             @Field("WEBSITE") website: String,
             @Field("CALLBACK_URL") callbackUrl: String,
-            @Field("INDUSTRY_TYPE_ID") industryTypeId: String
+            @Field("INDUSTRY_TYPE_ID") industryTypeId: String,
+            @Field("MOBILE_NUMBER") mobileNumber: String,
+            @Field("EMAIL") email: String
     ): Call<Checksum>
 }

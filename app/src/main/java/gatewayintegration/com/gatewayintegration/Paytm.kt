@@ -6,7 +6,7 @@ import java.util.*
 
 
 class Paytm(@field:SerializedName("MID")
-            internal var mId: String, channelId: String, txnAmount: String, website: String, callBackUrl: String, industryTypeId: String) {
+            internal var mId: String, orderId: String, channelId: String, txnAmount: String, website: String, callBackUrl: String, industryTypeId: String, mobileNumber: String, email: String) {
 
     @SerializedName("ORDER_ID")
     var orderId: String
@@ -36,17 +36,25 @@ class Paytm(@field:SerializedName("MID")
     var industryTypeId: String
         internal set
 
+    @SerializedName("MOBILE_NUMBER")
+    var mobileNumber: String
+        internal set
+
+    @SerializedName("EMAIL")
+    var email: String
+        internal set
+
     init {
-        this.orderId = generateString()
+        this.orderId = orderId
         this.custId = generateString()
         this.channelId = channelId
         this.txnAmount = txnAmount
         this.website = website
         this.callBackUrl = callBackUrl
         this.industryTypeId = industryTypeId
+        this.mobileNumber = mobileNumber
+        this.email = email
 
-        Log.d("orderId", orderId)
-        Log.d("customerId", custId)
     }
 
     fun getmId(): String {

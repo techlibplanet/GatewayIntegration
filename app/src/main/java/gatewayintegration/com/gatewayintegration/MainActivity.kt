@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
     private lateinit var paytmPGService: PaytmPGService
     private lateinit var textViewPrice : TextView
 
-    private val permissions = arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+    private val permissions = arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.ACCESS_NETWORK_STATE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +47,14 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
             generateChecksum()
         }
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        //initOrderId();
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
     private fun generateChecksum() {
@@ -70,11 +76,14 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
         //containing all the values required
         val paytm = Paytm(
                 Constants.M_ID,
+                "ABC123456789",
                 Constants.CHANNEL_ID,
                 txnAmount,
                 Constants.WEBSITE,
-                Constants.CALLBACK_URL,
-                Constants.INDUSTRY_TYPE_ID
+                Constants.CALLBACK_URL+"ABC123456789",
+                Constants.INDUSTRY_TYPE_ID,
+                "7777777777",
+                "abc@gmail.com"
         )
 
         //creating a call object from the apiService
@@ -86,7 +95,9 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
                 paytm.txnAmount,
                 paytm.website,
                 paytm.callBackUrl,
-                paytm.industryTypeId
+                paytm.industryTypeId,
+                paytm.mobileNumber,
+                paytm.email
         )
 
         //making the call to generate checksum
@@ -95,12 +106,13 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
 
                 //once we get the checksum we will initiailize the payment.
                 //the method is taking the checksum we got and the paytm object as the parameter
-                logD("Checksum hash - ${response.body().checksumHash}")
+                val body = response.body()
+                logD("Checksum hash - ${body.checksumHash} Order Id - ${body.orderId} Status - ${body.paytStatus}")
                 initializePaytmPayment(response.body().checksumHash, paytm)
             }
 
             override fun onFailure(call: Call<Checksum>, t: Throwable) {
-
+                logD("Error - $t")
             }
         })
     }
@@ -123,6 +135,8 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
         paramMap.put("CALLBACK_URL", paytm.callBackUrl)
         paramMap.put("CHECKSUMHASH", checksumHash)
         paramMap.put("INDUSTRY_TYPE_ID", paytm.industryTypeId)
+        paramMap.put("MOBILE_NUMBER", paytm.mobileNumber)
+        paramMap.put("EMAIL", paytm.email)
 
 
         //creating a paytm order object using the hashmap
@@ -138,6 +152,7 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
 
     override fun onTransactionResponse(inResponse: Bundle?) {
         toast(this, inResponse.toString())
+
     }
 
     override fun clientAuthenticationFailed(inErrorMessage: String?) {
