@@ -74,13 +74,16 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
 
         //creating paytm object
         //containing all the values required
+        var n = 0
+        n++
+        val orderId  = "ABC$n"
         val paytm = Paytm(
                 Constants.M_ID,
-                "ABC123456789",
+                orderId,
                 Constants.CHANNEL_ID,
                 txnAmount,
                 Constants.WEBSITE,
-                Constants.CALLBACK_URL+"ABC123456789",
+                Constants.CALLBACK_URL,
                 Constants.INDUSTRY_TYPE_ID,
                 "7777777777",
                 "abc@gmail.com"
@@ -109,6 +112,7 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
                 val body = response.body()
                 logD("Checksum hash - ${body.checksumHash} Order Id - ${body.orderId} Status - ${body.paytStatus}")
                 initializePaytmPayment(response.body().checksumHash, paytm)
+
             }
 
             override fun onFailure(call: Call<Checksum>, t: Throwable) {
@@ -152,6 +156,7 @@ class MainActivity : AppCompatActivity(), PaytmPaymentTransactionCallback {
 
     override fun onTransactionResponse(inResponse: Bundle?) {
         toast(this, inResponse.toString())
+        logD("Response - $inResponse")
 
     }
 

@@ -23,6 +23,6 @@ object Constants {
     val INDUSTRY_TYPE_ID = "Retail" //Paytm industry type got it in paytm credential
 
     val WEBSITE = "APPSTAGING"
-//    val CALLBACK_URL = "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp"
-    val CALLBACK_URL = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID="
+    val CALLBACK_URL = "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp"
+//    val CALLBACK_URL = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID="
 }

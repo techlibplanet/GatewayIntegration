@@ -10,7 +10,7 @@ import retrofit2.http.FormUrlEncoded
 interface PaytmApi {
 
     @FormUrlEncoded
-    @POST("generateChecksum.php")
+    @POST("generate.php")
     fun getChecksum(
             @Field("MID") mId: String,
             @Field("ORDER_ID") orderId: String,
