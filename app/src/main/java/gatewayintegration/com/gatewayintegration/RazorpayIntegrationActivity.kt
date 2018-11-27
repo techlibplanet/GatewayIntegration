@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_razorpay_integration.*
 import net.rmitsolutions.libcam.Constants.logD
 import org.json.JSONObject
 import android.util.Log
+import android.widget.EditText
 import com.razorpay.Checkout
 
 
@@ -16,9 +17,17 @@ import com.razorpay.Checkout
 class RazorpayIntegrationActivity : AppCompatActivity(), PaymentResultListener {
 
 
+    private lateinit var inputMobileNumber : EditText
+    private lateinit var inputAmount : EditText
+    private lateinit var inputEmail: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_razorpay_integration)
+
+        inputAmount = findViewById(R.id.amount)
+        inputMobileNumber = findViewById(R.id.mobileNumber)
+        inputEmail = findViewById(R.id.email)
 
         buttonPay.setOnClickListener {
             startPayment()
@@ -65,7 +74,7 @@ class RazorpayIntegrationActivity : AppCompatActivity(), PaymentResultListener {
              * Merchant Name
              * eg: Rentomojo || HasGeek etc.
              */
-            options.put("name", "Merchant Name")
+            options.put("name", "Mayank Sharma")
 
             /**
              * Description can be anything
@@ -81,10 +90,16 @@ class RazorpayIntegrationActivity : AppCompatActivity(), PaymentResultListener {
              * Amount is always passed in PAISE
              * Eg: "500" = Rs 5.00
              */
-            options.put("amount", "100")
+
+            var amount = inputAmount.text.toString().toInt()
+            amount += amount.times(100)
+
+            val email = inputEmail.text.toString().trim()
+            val mobileNumber = inputMobileNumber.text.toString().trim()
+            options.put("amount", amount)
             val preFill = JSONObject()
-            preFill.put("email", "abc@gmail.com")
-            preFill.put("contact", "9893192579")
+            preFill.put("email", email)
+            preFill.put("contact", mobileNumber)
 
             options.put("prefill", preFill)
 
