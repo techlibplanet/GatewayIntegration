@@ -91,8 +91,9 @@ class RazorpayIntegrationActivity : AppCompatActivity(), PaymentResultListener {
              * Eg: "500" = Rs 5.00
              */
 
-            var amount = inputAmount.text.toString().toInt()
-            amount += amount.times(100)
+            var amount = inputAmount.text.toString().toFloat()
+            amount *= 100
+            logD("Amount - $amount")
 
             val email = inputEmail.text.toString().trim()
             val mobileNumber = inputMobileNumber.text.toString().trim()
